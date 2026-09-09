@@ -1,0 +1,10 @@
+# Bases de datos locales y locks
+*.db
+*.db.lock
+
+# Python
+__pycache__/
+*.pyc
+
+# Logs de salida locales
+*.log
