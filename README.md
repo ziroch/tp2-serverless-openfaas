@@ -14,15 +14,15 @@ El proyecto aplica la filosofía Unix original: modularidad estricta mediante fl
 
 ## Estructura de directorios de proeycto
 tp2-serverless-openfaas/
-├── access_masivo.log
-├── build
-│   └── log-analyzer
-│       ├── Dockerfile
-│       └── handler.py
-├── captura
-│   ├── Captura de pantalla de 2026-09-13 23-18-15.png
-│   ├── Captura de pantalla de 2026-09-13 23-18-50.png
-│   ├── Captura de pantalla de 2026-09-13 23-19-03.png
+- access_masivo.log
+- build
+    log-analyzer
+    Dockerfile
+    handler.py
+- captura
+    Captura de pantalla de 2026-09-13 23-18-15.png
+    Captura de pantalla de 2026-09-13 23-18-50.png
+    Captura de pantalla de 2026-09-13 23-19-03.png
 │   └── Captura de pantalla de 2026-09-13 23-26-52.png
 ├── client
 │   ├── access_masivo.log
