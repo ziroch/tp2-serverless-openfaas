@@ -12,6 +12,33 @@ El proyecto aplica la filosofía Unix original: modularidad estricta mediante fl
    -  Victor Martinez
    -  Hernan Silgueira
 
+## Estructura de directorios de proeycto
+tp2-serverless-openfaas/
+├── access_masivo.log
+├── build
+│   └── log-analyzer
+│       ├── Dockerfile
+│       └── handler.py
+├── captura
+│   ├── Captura de pantalla de 2026-09-13 23-18-15.png
+│   ├── Captura de pantalla de 2026-09-13 23-18-50.png
+│   ├── Captura de pantalla de 2026-09-13 23-19-03.png
+│   └── Captura de pantalla de 2026-09-13 23-26-52.png
+├── client
+│   ├── access_masivo.log
+│   ├── analytics.db
+│   ├── analytics.db.lock
+│   ├── benchmark.sh
+│   ├── benchmark.sh.bkp
+│   ├── db_loader.py
+│   └── generar_logs_masivos.py
+├── function
+│   ├── Dockerfile
+│   └── handler.py
+├── README.md
+└── stack.yml
+
+
 
 ## 1. Preparación de la Infraestructura en OpenShift
 
