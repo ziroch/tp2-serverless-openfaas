@@ -1,0 +1,23 @@
+provider:
+  name: openfaas
+  gateway: https://openfaas-gateway-openfaas.apps.ocpvmsno.lab.data.com.py # Ruta obtenida con oc get route
+functions:
+  log-analyzer:
+    lang: dockerfile
+    image: quay.io/vjmartinez/log-analyzer:latest # Su repositorio de imágenes
+    handler: ./function
+    dockerfile: ./function/Dockerfile
+    # Auto-escalado estándar para la versión gratuita
+    environment:
+      mode: serializing
+      fprocess: python3 handler.py
+    labels:
+      com.openfaas.scale.min: "1"
+      com.openfaas.scale.max: "5"
+    # Límites estrictos de cgroups requeridos por la consigna del TP
+    limits:
+      cpu: "600m"
+      memory: "256Mi"
+    requests:
+      cpu: "100m"
+      memory: "128Mi"

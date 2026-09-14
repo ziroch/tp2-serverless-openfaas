@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# Detectar automáticamente la carpeta donde reside este script
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+# Configuración del Endpoint obtenido en la Fase 1
+ENDPOINT_URL="https://openfaas-gateway-openfaas.apps.ocpvmsno.lab.data.com.py/function/log-analyzer"
+CONCURRENCIA_OBJETIVO=60
+ARCHIVO_LOGS="$SCRIPT_DIR/access_masivo.log"
+
+# Crear datos sintéticos CLF si no existen
+if [ ! -f "$ARCHIVO_LOGS" ]; then
+    echo "Generando archivo de logs base..."
+    for i in {1..500}; do
+        echo "192.168.1.$((RANDOM%50+10)) - - [09/Sep/2026:12:00:00 -0300] \"GET /api/v1/resource HTTP/1.1\" 200 2048" >> "$ARCHIVO_LOGS"
+        echo "10.0.0.$((RANDOM%20+5)) - - [09/Sep/2026:12:01:00 -0300] \"POST /checkout HTTP/1.1\" 500 412" >> "$ARCHIVO_LOGS"
+    done
+fi
+
+echo "Iniciando inyección concurrente: $CONCURRENCIA_OBJETIVO peticiones en paralelo..."
+tiempo_inicio=$(date +%s%N)
+
+# Disparar subprocesos concurrentes en segundo plano usando la sintaxis &
+for i in $(seq 1 $CONCURRENCIA_OBJETIVO); do
+    (
+        # Pipeline: Cargar logs -> Enviar a OpenFaaS (OpenShift) -> Procesar salida en base de datos local
+        curl -s -X POST --data-binary @"$ARCHIVO_LOGS" "$ENDPOINT_URL" | python3 "$SCRIPT_DIR/db_loader.py"
+    ) &
+done
+
+wait # Barrera de sincronización Unix: espera que todos los procesos hijos terminen
+
+tiempo_fin=$(date +%s%N)
+duracion_ms=$(( (tiempo_fin - tiempo_inicio) / 1000000 ))
+
+echo "--------------------------------------------------------"
+echo "Prueba de carga finalizada exitosamente."
+echo "Tiempo total de ejecución del pipeline: $duracion_ms ms"
+echo "--------------------------------------------------------"
+
+# Mostrar una muestra de la base de datos resultante para verificar consistencia
+echo "Muestra consolidada en SQLite (Top 5 IPs con más tráfico exitoso):"
+sqlite3 analytics.db "SELECT * FROM reporte_ips ORDER BY hits DESC LIMIT 5;"
+

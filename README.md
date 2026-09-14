@@ -6,6 +6,12 @@ Este repositorio contiene la implementación de un pipeline serverless para la l
 El proyecto aplica la filosofía Unix original: modularidad estricta mediante flujos de texto en la entrada estándar (`stdin`) y salida estándar (`stdout`), emulando el comportamiento CGI para integrarse en infraestructuras Cloud.
 
 ---
+## Integrantes:
+
+   -  Antonio Aguero
+   -  Victor Martinez
+   -  Hernan Silgueira
+
 
 ## 1. Preparación de la Infraestructura en OpenShift
 
