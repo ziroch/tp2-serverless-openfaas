@@ -39,7 +39,6 @@ tp2-serverless-openfaas/
 └── stack.yml
 
 
-
 ## 1. Preparación de la Infraestructura en OpenShift
 
 Para cumplir con las estrictas políticas de seguridad nativas de OpenShift (RBAC y Security Context Constraints), ejecute los siguientes comandos autenticado en la CLI `oc` como administrador del clúster (`kubeadmin`).
